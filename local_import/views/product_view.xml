@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+<!--        product form inherit-->
+        <record id="view_inherit_services_form" model="ir.ui.view">
+            <field name="name">view.inherit.services.form</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="purchase.view_product_supplier_inherit"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='purchase_method']" position="after">
+                    <field name="import_opt"/>
+                </xpath>
+
+            </field>
+        </record>
+
+<!--        product search inherit-->
+        <record id="view_inherit_producto_search" model="ir.ui.view">
+            <field name="name">view.inherit.producto.search</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_search_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='consumable']" position="after">
+                    <separator/>
+                <filter string="Import" name="import" domain="[('import_opt','=',True)]"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

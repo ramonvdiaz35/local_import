@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="view_inherit_lote_form" model="ir.ui.view">
+            <field name="name">view.inherit.lote.form</field>
+            <field name="model">freight.operation</field>
+            <field name="inherit_id" ref="freight.view_freight_operation_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='direction']" position="after">
+                    <field name="impor_regimen"/>
+                    <field name="aforo_types"/>
+                </xpath>
+                <xpath expr="//field[@name='name']" position="replace">
+                    <group>
+                        <field name="name" width="50"/>
+                        <field name="compras_ibv" invisible="1"/>
+                        <field name="pickin_ibv" invisible="1"/>
+                        <field name="invoice_ibv" invisible="1"/>
+                    </group>
+                </xpath>
+                <xpath expr="//page[1]" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//page[2]" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//page[3]" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//page[4]" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//page[5]" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//page[6]" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//page[7]" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//page[8]" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+
+                <xpath expr="//page[8]" position="after">
+                    <page string="Pedido de Compra">
+                        <field name="compras_line_ids" attrs="{'invisible': [('compras_ibv','=',0)]}"/>
+                    </page>
+                </xpath>
+                <xpath expr="//page[9]" position="after">
+                    <page string="Recepción">
+                        <field name="piking_line_ids" attrs="{'invisible': [('pickin_ibv','=',0)]}"/>
+                    </page>
+                </xpath>
+                <xpath expr="//page[10]" position="after">
+                    <page string="Factura">
+                        <field name="invoice_line_ids" attrs="{'invisible': [('invoice_ibv','=',0)]}"/>
+                    </page>
+                </xpath>
+                <xpath expr="//page[11]" position="after">
+                    <page string="Pagos">
+<!--                        //-->
+                    </page>
+                </xpath>
+                <xpath expr="//page[12]" position="after">
+                    <page string="Liquidacion">
+<!--                        //-->
+                    </page>
+                </xpath>
+                <xpath expr="//field[@name='ocean_shipment_type']" position="after">
+                    <button name="button_link_costes_destino" type="object" string="Prorrateo de Costos"
+                            class="btn-link" widget="link"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="action_lote_view" model="ir.actions.act_window">
+            <field name="name">Lotes</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">freight.operation</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a new lote.
+                </p>
+            </field>
+        </record>
+
+<!--        Lote Menu-->
+        <menuitem name="Lote" parent="freight.freight_operations" id="freight_lote_operation"
+                  action="action_lote_view" sequence="6"/>
+    </data>
+</odoo>
