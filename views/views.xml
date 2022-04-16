@@ -1,0 +1,265 @@
+<odoo>
+    <data>
+        <record id="view_local_import_product_form" model="ir.ui.view">
+            <field name="name">view.local.import.product.form</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='purchase_method']" position="after">
+                    <field name="import_field"/>
+                </xpath>
+
+            </field>
+        </record>
+        <record id="view_local_import_partner_form" model="ir.ui.view">
+            <field name="name">view.local.import.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='purchase']" position="inside">
+                    <field name="import_field"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_local_import_stock_picking_form" model="ir.ui.view">
+            <field name="name">view.local.import.stock.picking.form</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='origin']" position="after">
+                    <field name="lote_import_id" invisible="1"/>
+                    <field name="lote_import"/>
+                </xpath>
+
+            </field>
+        </record>
+        <record id="view_local_import_account_move_form" model="ir.ui.view">
+            <field name="name">view.local.import.account.move.form</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_bank_id']" position="after">
+                    <field name="lote_import_id"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_local_import_stock_landed_costs_form" model="ir.ui.view">
+            <field name="name">view.local.import.stock.landed.costs.form</field>
+            <field name="model">stock.landed.cost</field>
+            <field name="inherit_id" ref="stock_landed_costs.view_stock_landed_cost_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='picking_ids']" position="after">
+                    <field name="freight_operation_id" >
+                    </field>
+                </xpath>
+
+            </field>
+        </record>
+        <record id="view_local_import_freight_operation_form" model="ir.ui.view">
+            <field name="name">view.local.import.freight.operation.form</field>
+            <field name="model">freight.operation</field>
+            <field name="inherit_id" ref="freight.view_freight_operation_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="attributes">
+                    <attribute name="readonly">False</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_local_import_custom_freight_operation_tree" model="ir.ui.view">
+            <field name="name">view.local.import.custom.freight.operation.tree</field>
+            <field name="model">freight.operation</field>
+            <field name="arch" type="xml">
+                <tree string="freight_operation_tree">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.menu" id="freight.freight_root">
+            <field name="name">Local Import</field>
+        </record>
+
+        <record id="view_local_import_import_regime_form" model="ir.ui.view">
+            <field name="name">view.local.import.import.regime.form</field>
+            <field name="model">import.regime</field>
+            <field name="arch" type="xml">
+                <form string="import_regime_form">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="date"/>
+                            <field name="type"/>
+                            <field name="active"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_local_import_import_regime_tree" model="ir.ui.view">
+            <field name="name">view.local.import.types.aforo.tree</field>
+            <field name="model">import.regime</field>
+            <field name="arch" type="xml">
+                <tree string="import_regime_tree">
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="type"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="local_import_import_regime_action" model="ir.actions.act_window">
+            <field name="name">Import Regime</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">import.regime</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record id="local_import_types_aforo_action" model="ir.actions.act_window">
+            <field name="name">Type Aforo</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">types.aforo</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record id="view_freight_operation_all_lote_action" model="ir.actions.act_window">
+            <field name="name">Lote</field>
+            <field name="res_model">freight.operation</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a new port.
+                </p>
+            </field>
+        </record>
+        <record id="view_custom_freight_operation_action" model="ir.actions.act_window">
+            <field name="name">Lote</field>
+            <field name="res_model">freight.operation</field>
+            <field name="view_id" ref="view_local_import_custom_freight_operation_tree"/>
+
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a new port.
+                </p>
+            </field>
+        </record>
+
+        <record id="view_local_import_types_aforo_form" model="ir.ui.view">
+            <field name="name">view.local.import.types.aforo.form</field>
+            <field name="model">types.aforo</field>
+            <field name="arch" type="xml">
+                <form string="types_aforo_form">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="active"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_local_import_types_aforo_tree" model="ir.ui.view">
+            <field name="name">view.local.import.types.aforo.tree</field>
+            <field name="model">types.aforo</field>
+            <field name="arch" type="xml">
+                <tree string="types_aforo_tree">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_local_freight_operation_form" model="ir.ui.view">
+            <field name="name">view.local.freight.operation.form</field>
+            <field name="model">freight.operation</field>
+            <field name="inherit_id" ref="freight.view_freight_operation_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='direction']" position="after">
+                    <field name="import_regime_id"/>
+                    <field name="types_aforo_id"/>
+                </xpath>
+                <xpath expr="//page[1]" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//page[2]" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//page[3]" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//page[4]" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//page[5]" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//page[6]" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//page[7]" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//page[8]" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//page[8]" position="after">
+                    <page string="Purchase Order">
+                        <field name="purchase_order_ids"/>
+                    </page>
+                    <page string="Reception">
+                        <field name="stock_picking_ids"/>
+                    </page>
+                    <page string="Invoice">
+                        <field name="account_move_ids"/>
+                    </page>
+                    <page string="Payments">
+                        <field name="account_payment_ids"/>
+                    </page>
+                    <page string="Settlement">
+                        <field name="stock_landed_cost_ids"/>
+
+                    </page>
+                </xpath>
+                <xpath expr="//field[@name='ocean_shipment_type']" position="after">
+                    <button name="open_landed_cost_form_view" type="object" string="Landed Cost" class="btn btn-link"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_local_import_purchase_order_form" model="ir.ui.view">
+            <field name="name">view.local.import.purchase.order.form</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='partner_ref']" position="after">
+                    <!-- Add your fields or attributes here -->
+                    <field name="import_field"/>
+                    <field name="lote_import_id" attrs="{'invisible': [('import_field','=',False)]}"/>
+                </xpath>
+                <xpath expr="//field[@name='import_field']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="view_local_import_partner_search" model="ir.ui.view">
+            <field name="name">view.local.import.partner.search</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search" position="inside">
+                    <field name="import_field"/>
+                    <filter string="Importación" name="import_field" domain="[('import_field', '=', True)]"/>
+                </xpath>
+            </field>
+        </record>
+
+        <menuitem id="import_regime_menu_id" name="Import Regime" action="local_import_import_regime_action"
+                  parent="freight.freight_configuration" sequence="10"/>
+        <menuitem id="types_aforo_menu_id" name="Type Aforo" action="local_import_types_aforo_action"
+                  parent="freight.freight_configuration" sequence="10"/>
+        <menuitem id="freight_all_operation_lote" name="Lote"
+                  parent="freight.freight_operations" action="view_freight_operation_all_lote_action" sequence="5"/>
+
+    </data>
+</odoo>

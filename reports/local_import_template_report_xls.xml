@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- QWeb Reports -->
+        <!-- NAME & FILE_NAME should be the same -->
+        <report
+                id="local_import_report_xls"
+                model='stock.landed.cost'
+                report_type="xlsx"
+                string="Reporte General de Costos de Liquidación"
+                name='local_import.local_import_report_xls'
+                file='local_import.local_import_report_xls'
+                attachment_use=" True"
+
+        />
+    </data>
+</odoo>
